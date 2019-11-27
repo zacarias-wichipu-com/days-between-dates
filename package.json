@@ -1,19 +1,24 @@
 {
   "name": "react-app-webpack",
   "version": "1.0.0",
-  "main": "index.js",
-  "author": "Zacarías Calabria Liétor",
-  "license": "MIT",
   "private": true,
+  "author": "Zacarías Calabria Liétor",
+  "license": "ISC",
+  "scripts": {
+    "start": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
   "devDependencies": {
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10",
+    "@babel/preset-env": "^7.7.4",
+    "@babel/preset-react": "^7.7.4",
     "eslint": "^6.7.1",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.16.0",
-    "eslint-plugin-standard": "^4.0.1"
+    "eslint-plugin-standard": "^4.0.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   }
 }
