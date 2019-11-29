@@ -13,7 +13,8 @@ const webpack = (env, argv) => {
 
   // devServer
   const devServer = {
-    contentBase: './dist'
+    contentBase: './dist',
+    hot: true
   }
 
   // HtmlWebpackPlugin
