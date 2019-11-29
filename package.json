@@ -5,8 +5,10 @@
   "author": "Zacarías Calabria Liétor",
   "license": "ISC",
   "scripts": {
-    "start": "webpack --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode development",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server --open",
+    "build:production": "webpack --mode production"
   },
   "devDependencies": {
     "@babel/core": "^7.7.4",
@@ -25,6 +27,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
   }
 }

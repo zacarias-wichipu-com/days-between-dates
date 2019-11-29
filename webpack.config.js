@@ -17,11 +17,8 @@ const plugins = [
 
 // WebpackConfig
 const webpackConfig = {
+  mode: 'development',
   entry: './src/index.jsx',
-  output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist')
-  },
   module: {
     rules: [
       {
@@ -33,7 +30,15 @@ const webpackConfig = {
       }
     ]
   },
-  plugins: plugins
+  devtool: 'inline-source-map',
+  devServer: {
+    contentBase: './dist'
+  },
+  plugins: plugins,
+  output: {
+    filename: 'main.js',
+    path: path.resolve(__dirname, 'dist')
+  }
 }
 
 module.exports = webpackConfig
