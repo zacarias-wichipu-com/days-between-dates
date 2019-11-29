@@ -1,8 +1,8 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { render } from 'react-dom'
 
 const Index = () => {
-  return <div>¡Hola mundo!</div>
+  return <h1>Days Between Dates</h1>
 }
 
-ReactDOM.render(<Index/>, document.getElementById('index'))
+render(<Index/>, document.getElementById('index'))

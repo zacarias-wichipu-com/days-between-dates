@@ -2,7 +2,21 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-module.exports = {
+// HtmlWebpackPlugin
+const HtmlWebpack = new HtmlWebpackPlugin({
+  template: './src/index.html',
+  filename: 'index.html',
+  title: 'Days Between Dates'
+})
+
+// Plugins
+const plugins = [
+  new CleanWebpackPlugin(),
+  HtmlWebpack
+]
+
+// WebpackConfig
+const webpackConfig = {
   entry: './src/index.jsx',
   output: {
     filename: 'main.js',
@@ -19,10 +33,7 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      title: 'Days Between Dates'
-    })
-  ]
+  plugins: plugins
 }
+
+module.exports = webpackConfig
