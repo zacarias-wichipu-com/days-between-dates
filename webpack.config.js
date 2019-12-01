@@ -20,8 +20,7 @@ const webpack = (env, argv) => {
   // HtmlWebpackPlugin
   const HtmlWebpack = new HtmlWebpackPlugin({
     template: './src/index.html',
-    filename: 'index.html',
-    title: 'Days Between Dates'
+    filename: 'index.html'
   })
 
   // Plugins
@@ -49,7 +48,7 @@ const webpack = (env, argv) => {
     plugins: plugins,
     output: {
       path: path.resolve(__dirname, 'dist'),
-      filename: 'main.js',
+      filename: 'app.js',
       publicPath: publicPath
     }
   }
