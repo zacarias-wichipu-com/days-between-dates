@@ -46,32 +46,76 @@ const webpack = (env, argv) => {
     ]
   }
 
+  // MiniCssExtractPlugin loader
+  const miniCssExtractPluginLoader = {
+    loader: MiniCssExtractPlugin.loader,
+    options: {
+      publicPath: '../',
+      hmr: !isProduction
+    }
+  }
+
+  // Style loader
+  const styleLoader = {
+    loader: 'style-loader'
+  }
+
+  // CSS loader
+  const cssLoader = {
+    loader: 'css-loader',
+    options: {
+      sourceMap: useSourcemaps
+    }
+  }
+
+  // SCSS/SASS loader
+  const sassLoader = {
+    loader: 'sass-loader',
+    options: {
+      sourceMap: useSourcemaps
+    }
+  }
+
+  // JS Rules
+  const jsRule = {
+    test: /\.jsx?$/i,
+    exclude: /node_modules/,
+    use: {
+      loader: 'babel-loader'
+    }
+  }
+
+  // CSS Rules
+  const cssRule = {
+    test: /\.css$/i,
+    use: [
+      !isProduction ? styleLoader : miniCssExtractPluginLoader,
+      cssLoader
+    ]
+  }
+
+  // Sass/SCSS Rules
+  const sassRules = {
+    test: /\.s[ac]ss$/i,
+    use: [
+      !isProduction ? styleLoader : miniCssExtractPluginLoader,
+      cssLoader,
+      sassLoader
+    ]
+  }
+
+  // Rules
+  const rules = [
+    jsRule,
+    cssRule,
+    sassRules
+  ]
+
   return {
     mode: mode,
     entry: './src/app.jsx',
     module: {
-      rules: [
-        {
-          test: /\.jsx?$/i,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader'
-          }
-        },
-        {
-          test: /\.css$/i,
-          use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-              options: {
-                publicPath: '../',
-                hmr: !isProduction
-              }
-            },
-            'css-loader'
-          ]
-        }
-      ]
+      rules: rules
     },
     devtool: useSourcemaps ? 'inline-source-map' : false,
     devServer: devServer,
