@@ -6,6 +6,9 @@ const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plug
 
 // WebpackConfig
 const webpack = (env, argv) => {
+  // - - - - - - - - - - - -
+  // General
+  // - - - - - - - - - - - -
   // Define configuration constants
   const useDevServer = false
   const mode = argv.mode || 'development'
@@ -19,6 +22,16 @@ const webpack = (env, argv) => {
     hot: true
   }
 
+  // Optimization
+  const optimization = {
+    minimizer: [
+      new OptimizeCssAssetsWebpackPlugin()
+    ]
+  }
+
+  // - - - - - - - - - - - -
+  // Plugins
+  // - - - - - - - - - - - -
   // HtmlWebpackPlugin
   const HtmlWebpack = new HtmlWebpackPlugin({
     template: './src/index.html',
@@ -39,13 +52,9 @@ const webpack = (env, argv) => {
     MiniCssExtract
   ]
 
-  // Optimization
-  const optimization = {
-    minimizer: [
-      new OptimizeCssAssetsWebpackPlugin()
-    ]
-  }
-
+  // - - - - - - - - - - - -
+  // Loaders
+  // - - - - - - - - - - - -
   // MiniCssExtractPlugin loader
   const miniCssExtractPluginLoader = {
     loader: MiniCssExtractPlugin.loader,
@@ -58,6 +67,11 @@ const webpack = (env, argv) => {
   // Style loader
   const styleLoader = {
     loader: 'style-loader'
+  }
+
+  // File loader
+  const fileLoader = {
+    loader: 'file-loader'
   }
 
   // CSS loader
@@ -76,6 +90,9 @@ const webpack = (env, argv) => {
     }
   }
 
+  // - - - - - - - - - - - -
+  // Rules
+  // - - - - - - - - - - - -
   // JS Rules
   const jsRule = {
     test: /\.jsx?$/i,
@@ -104,13 +121,25 @@ const webpack = (env, argv) => {
     ]
   }
 
+  // Typography Rules
+  const typoRules = {
+    test: /\.(woff|woff2|eot|ttf|otf)$/i,
+    use: [
+      fileLoader
+    ]
+  }
+
   // Rules
   const rules = [
     jsRule,
     cssRule,
-    sassRules
+    sassRules,
+    typoRules
   ]
 
+  // - - - - - - - - - - - -
+  // Webpack Config Object
+  // - - - - - - - - - - - -
   return {
     mode: mode,
     entry: './src/app.jsx',
