@@ -1,81 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { render } from 'react-dom'
-import 'typeface-roboto'
-import DateFnsUtils from '@date-io/date-fns'
-import {
-  Button,
-  Container,
-  Grid,
-  Typography
-} from '@material-ui/core'
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
-import './app.scss'
+import { format } from 'date-fns'
+import App from './DaysBetweenDates/App'
 
-const App = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date())
+const dateFormat = 'dd/MM/yyyy'
+const currentDate = format(new Date(), dateFormat)
 
-  const handleDateChange = date => {
-    setSelectedDate(date)
-  }
-
+const DaysBetweenDates = () => {
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Container maxWidth={'xs'} spacing={3}>
-        <Grid>
-          <Grid item xs>
-            <header>
-              <Typography variant="h1" component="h1" gutterBottom>
-                Days Between Date
-              </Typography>
-            </header>
-          </Grid>
-          <form>
-            <Grid item xs>
-              <div>
-                <KeyboardDatePicker
-                  id={'fromDatePicker'}
-                  format={'dd/MM/yyyy'}
-                  label={'Date from'}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date'
-                  }}
-                  PopoverProps={{
-                    anchorOrigin: { horizontal: 'center', vertical: 'bottom' },
-                    transformOrigin: { horizontal: 'center', vertical: 'bottom' }
-                  }}
-                  value={selectedDate}
-                  onChange={handleDateChange}/>
-              </div>
-            </Grid>
-            <Grid item xs>
-              <div>
-                <KeyboardDatePicker
-                  id={'toDatePicker'}
-                  format={'dd/MM/yyyy'}
-                  label={'Date to'}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date'
-                  }}
-                  PopoverProps={{
-                    anchorOrigin: { horizontal: 'center', vertical: 'bottom' },
-                    transformOrigin: { horizontal: 'center', vertical: 'bottom' }
-                  }}
-                  value={selectedDate}
-                  onChange={handleDateChange}/>
-              </div>
-            </Grid>
-            <Grid item xs>
-              <Button
-                variant="contained"
-                color="primary">
-                Clear
-              </Button>
-            </Grid>
-          </form>
-        </Grid>
-      </Container>
-    </MuiPickersUtilsProvider>
+    <App
+      dateFormat={dateFormat}
+      currentDate={currentDate}/>
   )
 }
 
-render(<App/>, document.getElementById('app'))
+render(<DaysBetweenDates/>, document.getElementById('app'))
