@@ -1,17 +1,17 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { format } from 'date-fns'
-import DaysBetweenDatesApp from './DaysBetweenDates/DaysBetweenDatesApp'
+import App from './DaysBetweenDates/App'
 
 const dateFormat = 'dd/MM/yyyy'
 const currentDate = format(new Date(), dateFormat)
 
-const App = () => {
+const DaysBetweenDates = () => {
   return (
-    <DaysBetweenDatesApp
+    <App
       dateFormat={dateFormat}
       currentDate={currentDate}/>
   )
 }
 
-render(<App/>, document.getElementById('app'))
+render(<DaysBetweenDates/>, document.getElementById('app'))

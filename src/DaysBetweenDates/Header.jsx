@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { differenceInDays, parse } from 'date-fns'
 import { Box, Typography } from '@material-ui/core'
 
-export default function DaysBetweenDatesHeader (props) {
+export default function Header (props) {
   const {
     dateFormat,
     fromDate,
@@ -11,12 +11,14 @@ export default function DaysBetweenDatesHeader (props) {
   } = props
 
   const daysBetweenDate = differenceInDays(
-    parse(fromDate, dateFormat, new Date()),
-    parse(toDate, dateFormat, new Date())
+    parse(toDate, dateFormat, new Date()),
+    parse(fromDate, dateFormat, new Date())
   )
 
   return (
-    <Box component={'header'}>
+    <Box
+      component={'header'}
+      my={6}>
       <Box
         component={'h1'}
         color={'text.secondary'}>
@@ -30,7 +32,7 @@ export default function DaysBetweenDatesHeader (props) {
             variant={'h2'}
             className={'calculate-days-between-dates'}>
             {daysBetweenDate}</Typography>
-          <span> </span>days
+          <span> </span>day{daysBetweenDate !== 1 && 's'}
         </Typography>
         <Typography
           component={'span'}
@@ -47,7 +49,7 @@ export default function DaysBetweenDatesHeader (props) {
   )
 }
 
-DaysBetweenDatesHeader.propTypes = {
+Header.propTypes = {
   dateFormat: PropTypes.string.isRequired,
   fromDate: PropTypes.string.isRequired,
   toDate: PropTypes.string.isRequired

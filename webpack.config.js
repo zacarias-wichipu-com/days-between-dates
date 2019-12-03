@@ -12,14 +12,15 @@ const webpack = (env, argv) => {
   // Define configuration constants
   const useDevServer = false
   const mode = argv.mode || 'development'
-  const publicPath = useDevServer ? 'http://localhost:8080/' : '/'
+  const publicPath = useDevServer ? 'https://localhost:8080/' : '/'
   const isProduction = mode === 'production'
   const useSourcemaps = !isProduction
 
   // devServer
   const devServer = {
     contentBase: './dist',
-    hot: true
+    hot: true,
+    https: true
   }
 
   // Optimization
