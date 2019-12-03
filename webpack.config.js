@@ -146,6 +146,9 @@ const webpack = (env, argv) => {
     module: {
       rules: rules
     },
+    resolve: {
+      extensions: ['.js', '.jsx']
+    },
     devtool: useSourcemaps ? 'inline-source-map' : false,
     devServer: devServer,
     optimization: optimization,

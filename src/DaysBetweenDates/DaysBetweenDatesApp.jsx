@@ -1,41 +1,34 @@
 import React, { Component } from 'react'
-import { Box, Container, Typography } from '@material-ui/core'
+import PropTypes from 'prop-types'
+import { Container } from '@material-ui/core'
 import 'typeface-roboto'
+import DaysBetweenDatesHeader from './DaysBetweenDatesHeader'
 import './../app.scss'
 
 export default class DaysBetweenDatesApp extends Component {
+  constructor (props) {
+    super(props)
+
+    const { currentDate } = props
+
+    this.state = {
+      fromDate: currentDate,
+      toDate: currentDate
+    }
+  }
+
   render () {
     return (
       <Container maxWidth={'xs'}>
-        <Box component={'header'}>
-          <Box
-            component={'h1'}
-            color={'text.secondary'}>
-            <Typography
-              component={'span'}
-              variant={'h5'}
-              display={'block'}
-              align={'left'}>
-              <Typography
-                component={'strong'}
-                variant={'h2'}
-                className={'calculate-days-between-dates'}>
-                14502</Typography>
-              <span> </span>days
-            </Typography>
-            <Typography
-              component={'span'}
-              variant={'h2'}
-              display={'block'}
-              align={'right'}>between</Typography>
-            <Typography
-              component={'span'}
-              variant={'h2'}
-              display={'block'}
-              align={'left'}>dates.</Typography>
-          </Box>
-        </Box>
+        <DaysBetweenDatesHeader
+          {...this.props}
+          {...this.state}/>
       </Container>
     )
   }
+}
+
+DaysBetweenDatesApp.propTypes = {
+  dateFormat: PropTypes.string.isRequired,
+  currentDate: PropTypes.string.isRequired
 }
