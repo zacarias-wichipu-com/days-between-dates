@@ -24462,7 +24462,7 @@ function App_setPrototypeOf(o, p) { App_setPrototypeOf = Object.setPrototypeOf |
 var App_styles = function styles(theme) {
   return {
     daysBetweenDatesContainerMaxWidthXs: {
-      maxWidth: 350
+      maxWidth: 320
     }
   };
 };
