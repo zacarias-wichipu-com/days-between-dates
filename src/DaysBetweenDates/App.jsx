@@ -58,7 +58,7 @@ class App extends Component {
           stateProp={'toDate'}
           label={'Date to'}
           onDateChange={this.handleDateChange}/>
-        {/*<Footer/>*/}
+        <Footer/>
       </Container>
     )
   }

@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 // WebpackConfig
 const webpack = (env, argv) => {
@@ -46,11 +47,17 @@ const webpack = (env, argv) => {
     ignoreOrder: false
   })
 
+  // MiniCssExtractPlugin
+  const CopyPlugin = new CopyWebpackPlugin([
+    { from: './assets/static', to: 'assets' }
+  ])
+
   // Plugins
   const plugins = [
     new CleanWebpackPlugin(),
     HtmlWebpack,
-    MiniCssExtract
+    MiniCssExtract,
+    CopyPlugin
   ]
 
   // - - - - - - - - - - - -

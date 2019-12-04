@@ -6,7 +6,8 @@ export default function Footer (props) {
     <Box
       component={'footer'}>
       <CardMedia
-        image={'./wichipu.svg'}/>
+        component={'img'}
+        src={'./assets/images/wichipu.svg'}/>
     </Box>
   )
 }
