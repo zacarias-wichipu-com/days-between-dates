@@ -27,7 +27,6 @@ class App extends Component {
   }
 
   handleDateChange (stateProp, date) {
-    console.log(stateProp, date)
     this.setState({
       [stateProp]: date
     })
