@@ -8,7 +8,7 @@ import './../app.scss'
 
 const styles = theme => ({
   daysBetweenDatesContainerMaxWidthXs: {
-    maxWidth: 300
+    maxWidth: 320
   }
 })
 
