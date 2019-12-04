@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Container, withStyles } from '@material-ui/core'
 import 'typeface-roboto'
+import Theme from './Theme'
 import Header from './Header'
 import DatePicker from './DatePicker'
-import './../app.scss'
+import Footer from './Footer'
+import './../../assets/css/app.scss'
 
 const styles = theme => ({
   daysBetweenDatesContainerMaxWidthXs: {
@@ -22,12 +24,11 @@ class App extends Component {
       fromDate: currentDate,
       toDate: currentDate
     }
-
-    this.handleDateChange = this.handleDateChange.bind(this)
   }
 
-  handleDateChange (stateProp, date) {
-    console.log(stateProp, date)
+  handleDateChange = (stateProp, date) => {
+    console.log(this)
+
     this.setState({
       [stateProp]: date
     })
@@ -57,6 +58,7 @@ class App extends Component {
           stateProp={'toDate'}
           label={'Date to'}
           onDateChange={this.handleDateChange}/>
+        <Footer/>
       </Container>
     )
   }
@@ -68,4 +70,4 @@ App.propTypes = {
   currentDate: PropTypes.string.isRequired
 }
 
-export default withStyles(styles)(App)
+export default Theme(withStyles(styles)(App))

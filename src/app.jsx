@@ -14,4 +14,7 @@ const DaysBetweenDates = () => {
   )
 }
 
-render(<DaysBetweenDates/>, document.getElementById('app'))
+render(
+  <DaysBetweenDates/>,
+  document.getElementById('app')
+)

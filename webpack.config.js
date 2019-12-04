@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 // WebpackConfig
 const webpack = (env, argv) => {
@@ -36,7 +37,9 @@ const webpack = (env, argv) => {
   // HtmlWebpackPlugin
   const HtmlWebpack = new HtmlWebpackPlugin({
     template: './src/index.html',
-    filename: 'index.html'
+    filename: 'index.html',
+    title: 'Days Between Dates',
+    base: isProduction ? 'https://zacarias-wichipu-com.github.io/days-between-dates/' : '/'
   })
 
   // MiniCssExtractPlugin
@@ -46,11 +49,17 @@ const webpack = (env, argv) => {
     ignoreOrder: false
   })
 
+  // MiniCssExtractPlugin
+  const CopyPlugin = new CopyWebpackPlugin([
+    { from: './assets/static', to: 'assets' }
+  ])
+
   // Plugins
   const plugins = [
     new CleanWebpackPlugin(),
     HtmlWebpack,
-    MiniCssExtract
+    MiniCssExtract,
+    CopyPlugin
   ]
 
   // - - - - - - - - - - - -
