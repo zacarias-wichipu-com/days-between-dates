@@ -37,7 +37,9 @@ const webpack = (env, argv) => {
   // HtmlWebpackPlugin
   const HtmlWebpack = new HtmlWebpackPlugin({
     template: './src/index.html',
-    filename: 'index.html'
+    filename: 'index.html',
+    title: 'Days Between Dates',
+    base: isProduction ? 'https://zacarias-wichipu-com.github.io/days-between-dates/' : '/'
   })
 
   // MiniCssExtractPlugin
