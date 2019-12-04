@@ -18,7 +18,8 @@ export default function Header (props) {
   return (
     <Box
       component={'header'}
-      my={6}>
+      mt={3}
+      mb={6}>
       <Box
         component={'h1'}
         color={'text.secondary'}>

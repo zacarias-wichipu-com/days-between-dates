@@ -5,7 +5,8 @@ import 'typeface-roboto'
 import Theme from './Theme'
 import Header from './Header'
 import DatePicker from './DatePicker'
-import './../app.scss'
+import Footer from './Footer'
+import './../../assets/css/app.scss'
 
 const styles = theme => ({
   daysBetweenDatesContainerMaxWidthXs: {
@@ -57,6 +58,7 @@ class App extends Component {
           stateProp={'toDate'}
           label={'Date to'}
           onDateChange={this.handleDateChange}/>
+        {/*<Footer/>*/}
       </Container>
     )
   }
