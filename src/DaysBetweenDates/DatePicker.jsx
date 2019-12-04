@@ -23,7 +23,7 @@ export default function DatePicker (props) {
   }
 
   return (
-    <Box mb={5}>
+    <Box mt={4}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker
           value={parse(date, dateFormat, new Date())}
