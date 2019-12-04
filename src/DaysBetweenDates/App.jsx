@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Container, withStyles } from '@material-ui/core'
 import 'typeface-roboto'
+import Theme from './Theme'
 import Header from './Header'
 import DatePicker from './DatePicker'
 import './../app.scss'
@@ -67,4 +68,4 @@ App.propTypes = {
   currentDate: PropTypes.string.isRequired
 }
 
-export default withStyles(styles)(App)
+export default Theme(withStyles(styles)(App))
