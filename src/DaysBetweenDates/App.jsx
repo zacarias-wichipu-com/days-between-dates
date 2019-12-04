@@ -24,11 +24,11 @@ class App extends Component {
       fromDate: currentDate,
       toDate: currentDate
     }
-
-    this.handleDateChange = this.handleDateChange.bind(this)
   }
 
-  handleDateChange (stateProp, date) {
+  handleDateChange = (stateProp, date) => {
+    console.log(this)
+
     this.setState({
       [stateProp]: date
     })
