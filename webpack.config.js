@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const WebpackManifestPlugin = require('webpack-manifest-plugin')
 
 // WebpackConfig
 const webpack = (env, argv) => {
@@ -13,13 +14,14 @@ const webpack = (env, argv) => {
   // Define configuration constants
   const useDevServer = false
   const mode = argv.mode || 'development'
+  const baseFolder = 'dist'
   const publicPath = useDevServer ? 'https://localhost:8080/' : '/'
   const isProduction = mode === 'production'
   const useSourcemaps = !isProduction
 
   // devServer
   const devServer = {
-    contentBase: './dist',
+    contentBase: path.resolve('./', baseFolder),
     hot: true,
     https: true
   }
@@ -34,6 +36,11 @@ const webpack = (env, argv) => {
   // - - - - - - - - - - - -
   // Plugins
   // - - - - - - - - - - - -
+  // HtmlWebpackPlugin
+  const CleanWebpack = new CleanWebpackPlugin({
+    cleanOnceBeforeBuildPatterns: ['**/*', '!.gitignore']
+  })
+
   // HtmlWebpackPlugin
   const HtmlWebpack = new HtmlWebpackPlugin({
     template: './src/index.html',
@@ -54,12 +61,19 @@ const webpack = (env, argv) => {
     { from: './assets/static', to: 'assets' }
   ])
 
+  // WebpackManifestPlugin
+  const ManifestPlugin = new WebpackManifestPlugin({
+    basePath: baseFolder + '/',
+    writeToFileEmit: true
+  })
+
   // Plugins
   const plugins = [
-    new CleanWebpackPlugin(),
+    CleanWebpack,
     HtmlWebpack,
     MiniCssExtract,
-    CopyPlugin
+    CopyPlugin,
+    ManifestPlugin
   ]
 
   // - - - - - - - - - - - -
@@ -164,7 +178,7 @@ const webpack = (env, argv) => {
     optimization: optimization,
     plugins: plugins,
     output: {
-      path: path.resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, baseFolder),
       filename: 'app.js',
       publicPath: publicPath
     }
