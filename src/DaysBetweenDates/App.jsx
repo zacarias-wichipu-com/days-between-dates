@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { differenceInDays, parse } from 'date-fns'
 import { Container, withStyles } from '@material-ui/core'
 import 'typeface-roboto'
 import Theme from './Theme'
@@ -27,11 +28,30 @@ class App extends Component {
   }
 
   handleDateChange = (stateProp, date) => {
-    console.log(this)
+    let newState = {
+      fromDate: this.state.fromDate,
+      toDate: this.state.toDate
+    }
 
-    this.setState({
-      [stateProp]: date
-    })
+    newState[stateProp] = date
+
+    const daysBetweenDate = differenceInDays(
+      parse(newState.toDate, this.props.dateFormat, new Date()),
+      parse(newState.fromDate, this.props.dateFormat, new Date())
+    )
+
+    if (daysBetweenDate < 0) {
+      newState = {
+        fromDate: date,
+        toDate: date
+      }
+    } else {
+      newState = {
+        [stateProp]: date
+      }
+    }
+
+    this.setState(newState)
   }
 
   render () {
