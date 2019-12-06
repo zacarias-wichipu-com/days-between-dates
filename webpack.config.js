@@ -13,6 +13,7 @@ const webpack = (env, argv) => {
   // - - - - - - - - - - - -
   // Define configuration constants
   const useDevServer = false
+  const useVersioning = true
   const mode = argv.mode || 'development'
   const baseFolder = 'dist'
   const publicPath = useDevServer ? 'https://localhost:8080/' : '/'
@@ -45,13 +46,12 @@ const webpack = (env, argv) => {
   const HtmlWebpack = new HtmlWebpackPlugin({
     template: './src/index.html',
     filename: 'index.html',
-    title: 'Days Between Dates',
-    base: isProduction ? 'https://zacarias-wichipu-com.github.io/days-between-dates/' : '/'
+    title: 'Days Between Dates'
   })
 
   // MiniCssExtractPlugin
   const MiniCssExtract = new MiniCssExtractPlugin({
-    filename: 'app.css',
+    filename: useVersioning ? '[name].[contenthash:6].css' : '[name].css',
     chunkFilename: '[id].css',
     ignoreOrder: false
   })
@@ -63,7 +63,7 @@ const webpack = (env, argv) => {
 
   // WebpackManifestPlugin
   const ManifestPlugin = new WebpackManifestPlugin({
-    basePath: baseFolder + '/',
+    basePath: '/',
     writeToFileEmit: true
   })
 
@@ -95,7 +95,10 @@ const webpack = (env, argv) => {
 
   // File loader
   const fileLoader = {
-    loader: 'file-loader'
+    loader: 'file-loader',
+    options: {
+      name: '[name]-[hash:6].[ext]'
+    }
   }
 
   // CSS loader
@@ -122,7 +125,10 @@ const webpack = (env, argv) => {
     test: /\.jsx?$/i,
     exclude: /node_modules/,
     use: {
-      loader: 'babel-loader'
+      loader: 'babel-loader',
+      options: {
+        cacheDirectory: true
+      }
     }
   }
 
@@ -145,6 +151,14 @@ const webpack = (env, argv) => {
     ]
   }
 
+  // Image Rules
+  const imageRules = {
+    test: /\.(png|jpg|jpeg|gif|ico|svg)$/i,
+    use: [
+      fileLoader
+    ]
+  }
+
   // Typography Rules
   const typoRules = {
     test: /\.(woff|woff2|eot|ttf|otf)$/i,
@@ -158,6 +172,7 @@ const webpack = (env, argv) => {
     jsRule,
     cssRule,
     sassRules,
+    imageRules,
     typoRules
   ]
 
@@ -179,7 +194,7 @@ const webpack = (env, argv) => {
     plugins: plugins,
     output: {
       path: path.resolve(__dirname, baseFolder),
-      filename: 'app.js',
+      filename: useVersioning ? '[name].[chunkhash:6].js' : '[name].js',
       publicPath: publicPath
     }
   }
