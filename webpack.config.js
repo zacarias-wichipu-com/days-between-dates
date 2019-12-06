@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const WebpackManifestPlugin = require('webpack-manifest-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 // WebpackConfig
 const webpack = (env, argv) => {
@@ -29,9 +30,16 @@ const webpack = (env, argv) => {
 
   // Optimization
   const optimization = {
-    minimizer: [
-      new OptimizeCssAssetsWebpackPlugin()
-    ]
+    splitChunks: {
+      name: !isProduction
+    },
+    hashedModuleIds: isProduction,
+    minimizer: []
+  }
+
+  if (isProduction) {
+    optimization.minimizer.push(new OptimizeCssAssetsWebpackPlugin())
+    optimization.minimizer.push(new TerserPlugin())
   }
 
   // - - - - - - - - - - - -
@@ -194,7 +202,7 @@ const webpack = (env, argv) => {
     plugins: plugins,
     output: {
       path: path.resolve(__dirname, baseFolder),
-      filename: useVersioning ? '[name].[chunkhash:6].js' : '[name].js',
+      filename: useVersioning ? '[name].[hash:6].js' : '[name].js',
       publicPath: publicPath
     }
   }
