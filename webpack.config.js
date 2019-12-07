@@ -29,14 +29,17 @@ const webpack = (env, argv) => {
 
   // Optimization
   const optimization = {
-    splitChunks: {
-      name: !isProduction
-    },
+    splitChunks: {},
     hashedModuleIds: isProduction,
     minimizer: []
   }
 
   if (isProduction) {
+    const splitChunksProperties = {
+      name: !isProduction
+    }
+
+    optimization.splitChunks = { ...optimization.splitChunks, ...splitChunksProperties }
     optimization.minimizer.push(new OptimizeCssAssetsWebpackPlugin())
     optimization.minimizer.push(new TerserPlugin())
   }
