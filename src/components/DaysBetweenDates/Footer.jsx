@@ -1,5 +1,6 @@
 import React from 'react'
 import { Box, CardMedia, Link, withStyles } from '@material-ui/core'
+import image from '../../assets/images/wichipu.svg'
 
 const StyledCardMedia = withStyles({
   root: {
@@ -7,7 +8,7 @@ const StyledCardMedia = withStyles({
   }
 })(CardMedia)
 
-export default function Footer (props) {
+function Footer () {
   return (
     <Box
       alignItems={'flex-end'}
@@ -19,8 +20,10 @@ export default function Footer (props) {
         href={'mailto:hablacon@wichipu.com'}>
         <StyledCardMedia
           component={'img'}
-          src={'./assets/images/wichipu.svg'}/>
+          src={image}/>
       </Link>
     </Box>
   )
 }
+
+export default Footer

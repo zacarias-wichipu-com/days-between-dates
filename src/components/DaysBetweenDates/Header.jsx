@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { differenceInDays, parse } from 'date-fns'
 import { Box, Typography } from '@material-ui/core'
 
-export default function Header (props) {
+function Header (props) {
   const {
     dateFormat,
     fromDate,
@@ -55,3 +55,5 @@ Header.propTypes = {
   fromDate: PropTypes.string.isRequired,
   toDate: PropTypes.string.isRequired
 }
+
+export default Header
