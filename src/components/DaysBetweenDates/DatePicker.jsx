@@ -5,6 +5,10 @@ import { format, parse } from 'date-fns'
 import { Box } from '@material-ui/core'
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 
+const style = {
+  width: '100%'
+}
+
 function DatePicker (props) {
   const {
     date,
@@ -13,10 +17,6 @@ function DatePicker (props) {
     stateProp,
     onDateChange
   } = props
-
-  const style = {
-    width: '100%'
-  }
 
   const handleDateChange = date => {
     onDateChange(stateProp, format(date, dateFormat))

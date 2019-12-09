@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { differenceInDays, parse } from 'date-fns'
+import { differenceInDays, format, parse } from 'date-fns'
 import { Container, withStyles } from '@material-ui/core'
 import 'typeface-roboto'
 import Theme from './Theme'
@@ -15,37 +15,52 @@ const styles = theme => ({
   }
 })
 
-function App ({ currentDate, dateFormat, classes }) {
+const dateFormat = 'dd/MM/yyyy'
+const currentDate = format(new Date(), dateFormat)
+
+const calculateDatesDifferenceInDays = (toDate, fromDate, dateFormat = 'dd/MM/yyyy') => {
+  return differenceInDays(
+    parse(toDate, dateFormat, new Date()),
+    parse(fromDate, dateFormat, new Date())
+  )
+}
+
+function App ({ classes }) {
   const [fromDate, setFromDate] = useState(currentDate)
   const [toDate, setToDate] = useState(currentDate)
+  const [datesDifferenceInDays, setDatesDifferenceInDays] = useState(0)
+
+  const refFromDate = useRef(fromDate)
+  const refToDate = useRef(fromDate)
 
   const handleDateChange = (stateProp, date) => {
     const newState = {
-      fromDate: fromDate,
-      toDate: toDate
+      fromDate: refFromDate.current,
+      toDate: refToDate.current
     }
 
     newState[stateProp] = date
 
-    const daysBetweenDate = differenceInDays(
-      parse(newState.toDate, dateFormat, new Date()),
-      parse(newState.fromDate, dateFormat, new Date())
-    )
+    const daysBetweenDate = calculateDatesDifferenceInDays(newState.toDate, newState.fromDate)
 
     if (daysBetweenDate < 0) {
-      setFromDate(date)
-      setToDate(date)
+      refFromDate.current = date
+      refToDate.current = date
     } else {
       switch (stateProp) {
         case 'fromDate':
-          setFromDate(date)
+          refFromDate.current = date
           break
         case 'toDate':
-          setToDate(date)
+          refToDate.current = date
           break
         default:
       }
     }
+
+    setFromDate(refFromDate.current)
+    setToDate(refToDate.current)
+    setDatesDifferenceInDays(calculateDatesDifferenceInDays(refToDate.current, refFromDate.current))
   }
 
   return (
@@ -55,7 +70,8 @@ function App ({ currentDate, dateFormat, classes }) {
       <Header
         dateFormat={dateFormat}
         fromDate={fromDate}
-        toDate={toDate}/>
+        toDate={toDate}
+        datesDifferenceInDays={datesDifferenceInDays}/>
       <DatePicker
         dateFormat={dateFormat}
         id={'fromDatePicker'}
@@ -76,9 +92,7 @@ function App ({ currentDate, dateFormat, classes }) {
 }
 
 App.propTypes = {
-  classes: PropTypes.object.isRequired,
-  dateFormat: PropTypes.string.isRequired,
-  currentDate: PropTypes.string.isRequired
+  classes: PropTypes.object.isRequired
 }
 
 export default Theme(withStyles(styles)(App))
