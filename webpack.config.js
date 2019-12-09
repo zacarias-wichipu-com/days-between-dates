@@ -3,7 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const WebpackManifestPlugin = require('webpack-manifest-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 // WebpackConfig
 const webpack = (env, argv) => {
@@ -12,54 +13,71 @@ const webpack = (env, argv) => {
   // - - - - - - - - - - - -
   // Define configuration constants
   const useDevServer = false
+  const useVersioning = true
   const mode = argv.mode || 'development'
+  const baseFolder = 'dist'
   const publicPath = useDevServer ? 'https://localhost:8080/' : '/'
   const isProduction = mode === 'production'
   const useSourcemaps = !isProduction
 
   // devServer
   const devServer = {
-    contentBase: './dist',
+    contentBase: path.resolve('./', baseFolder),
     hot: true,
     https: true
   }
 
   // Optimization
   const optimization = {
-    minimizer: [
-      new OptimizeCssAssetsWebpackPlugin()
-    ]
+    splitChunks: {},
+    hashedModuleIds: isProduction,
+    minimizer: []
+  }
+
+  if (isProduction) {
+    const splitChunksProperties = {
+      name: !isProduction
+    }
+
+    optimization.splitChunks = { ...optimization.splitChunks, ...splitChunksProperties }
+    optimization.minimizer.push(new OptimizeCssAssetsWebpackPlugin())
+    optimization.minimizer.push(new TerserPlugin())
   }
 
   // - - - - - - - - - - - -
   // Plugins
   // - - - - - - - - - - - -
   // HtmlWebpackPlugin
+  const CleanWebpack = new CleanWebpackPlugin({
+    cleanOnceBeforeBuildPatterns: ['**/*', '!.gitignore']
+  })
+
+  // HtmlWebpackPlugin
   const HtmlWebpack = new HtmlWebpackPlugin({
     template: './src/index.html',
     filename: 'index.html',
-    title: 'Days Between Dates',
-    base: isProduction ? 'https://zacarias-wichipu-com.github.io/days-between-dates/' : '/'
+    title: 'Days Between Dates'
   })
 
   // MiniCssExtractPlugin
   const MiniCssExtract = new MiniCssExtractPlugin({
-    filename: 'app.css',
+    filename: useVersioning ? '[name].[contenthash:6].css' : '[name].css',
     chunkFilename: '[id].css',
     ignoreOrder: false
   })
 
-  // MiniCssExtractPlugin
-  const CopyPlugin = new CopyWebpackPlugin([
-    { from: './assets/static', to: 'assets' }
-  ])
+  // WebpackManifestPlugin
+  const ManifestPlugin = new WebpackManifestPlugin({
+    basePath: '/',
+    writeToFileEmit: true
+  })
 
   // Plugins
   const plugins = [
-    new CleanWebpackPlugin(),
+    CleanWebpack,
     HtmlWebpack,
     MiniCssExtract,
-    CopyPlugin
+    ManifestPlugin
   ]
 
   // - - - - - - - - - - - -
@@ -81,7 +99,10 @@ const webpack = (env, argv) => {
 
   // File loader
   const fileLoader = {
-    loader: 'file-loader'
+    loader: 'file-loader',
+    options: {
+      name: '[name]-[hash:6].[ext]'
+    }
   }
 
   // CSS loader
@@ -108,7 +129,10 @@ const webpack = (env, argv) => {
     test: /\.jsx?$/i,
     exclude: /node_modules/,
     use: {
-      loader: 'babel-loader'
+      loader: 'babel-loader',
+      options: {
+        cacheDirectory: true
+      }
     }
   }
 
@@ -131,6 +155,14 @@ const webpack = (env, argv) => {
     ]
   }
 
+  // Image Rules
+  const imageRules = {
+    test: /\.(png|jpg|jpeg|gif|ico|svg)$/i,
+    use: [
+      fileLoader
+    ]
+  }
+
   // Typography Rules
   const typoRules = {
     test: /\.(woff|woff2|eot|ttf|otf)$/i,
@@ -144,6 +176,7 @@ const webpack = (env, argv) => {
     jsRule,
     cssRule,
     sassRules,
+    imageRules,
     typoRules
   ]
 
@@ -164,8 +197,8 @@ const webpack = (env, argv) => {
     optimization: optimization,
     plugins: plugins,
     output: {
-      path: path.resolve(__dirname, 'dist'),
-      filename: 'app.js',
+      path: path.resolve(__dirname, baseFolder),
+      filename: useVersioning ? '[name].[hash:6].js' : '[name].js',
       publicPath: publicPath
     }
   }
