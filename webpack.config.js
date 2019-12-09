@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const WebpackManifestPlugin = require('webpack-manifest-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
@@ -30,14 +29,17 @@ const webpack = (env, argv) => {
 
   // Optimization
   const optimization = {
-    splitChunks: {
-      name: !isProduction
-    },
+    splitChunks: {},
     hashedModuleIds: isProduction,
     minimizer: []
   }
 
   if (isProduction) {
+    const splitChunksProperties = {
+      name: !isProduction
+    }
+
+    optimization.splitChunks = { ...optimization.splitChunks, ...splitChunksProperties }
     optimization.minimizer.push(new OptimizeCssAssetsWebpackPlugin())
     optimization.minimizer.push(new TerserPlugin())
   }
@@ -64,11 +66,6 @@ const webpack = (env, argv) => {
     ignoreOrder: false
   })
 
-  // MiniCssExtractPlugin
-  const CopyPlugin = new CopyWebpackPlugin([
-    { from: './assets/static', to: 'assets' }
-  ])
-
   // WebpackManifestPlugin
   const ManifestPlugin = new WebpackManifestPlugin({
     basePath: '/',
@@ -80,7 +77,6 @@ const webpack = (env, argv) => {
     CleanWebpack,
     HtmlWebpack,
     MiniCssExtract,
-    CopyPlugin,
     ManifestPlugin
   ]
 

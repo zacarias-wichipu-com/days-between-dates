@@ -9,7 +9,7 @@ const style = {
   width: '100%'
 }
 
-export default function DatePicker (props) {
+function DatePicker (props) {
   const {
     date,
     dateFormat,
@@ -46,3 +46,5 @@ DatePicker.propTypes = {
   label: PropTypes.string.isRequired,
   onDateChange: PropTypes.func.isRequired
 }
+
+export default DatePicker
