@@ -4,5 +4,5 @@
   "/index.html": "/index.html",
   "/main.ea0c13.js.LICENSE": "/main.ea0c13.js.LICENSE",
   "/index.css": "/roboto-latin-900italic-ebf6d1.woff2",
-  "/wichipu.svg": "/wichipu-b47876.svg"
+  "/wichipu.svg": "./wichipu-b47876.svg"
 }
