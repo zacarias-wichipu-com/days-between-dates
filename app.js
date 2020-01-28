@@ -24773,7 +24773,7 @@ function Footer(props) {
     href: 'mailto:hablacon@wichipu.com'
   }, react_default.a.createElement(StyledCardMedia, {
     component: 'img',
-    src: '/wichipu.svg'
+    src: './assets/images/wichipu.svg'
   })));
 }
 // EXTERNAL MODULE: ./assets/css/app.scss
